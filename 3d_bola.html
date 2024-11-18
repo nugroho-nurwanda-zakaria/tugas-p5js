@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>3D Sphere with Contrasting Colors</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #1a1a1a;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let angle = 0;
+        let sphereColor;
+
+        function setup() {
+            createCanvas(400, 400, WEBGL);
+            colorMode(HSB);
+            sphereColor = color(0, 100, 100); // Mulai dengan warna merah
+        }
+
+        function draw() {
+            // Background gradien gelap
+            background(234, 80, 20);
+
+            // Pencahayaan yang lebih dramatis
+            ambientLight(30);
+            pointLight(255, 255, 255, 200, 0, 100);
+            pointLight(255, 0, 255, -200, 0, 100);
+
+            // Rotasi
+            if (mouseIsPressed) {
+                rotateY(mouseX * 0.01);
+                rotateX(mouseY * 0.01);
+            } else {
+                rotateY(angle);
+                rotateX(angle * 0.5);
+            }
+
+            push();
+
+            // Material bola yang berkilau
+            specularMaterial(250);
+            shininess(50);
+
+            // Warna bola yang berubah-ubah
+            let hue = (frameCount % 360);
+            fill(hue, 100, 100);
+
+            // Membuat bola
+            sphere(100);
+
+            pop();
+
+            // Efek glow dengan lapisan bola transparan
+            push();
+            noFill();
+            stroke(hue, 100, 100, 0.5);
+            strokeWeight(2);
+            sphere(105);
+            pop();
+
+            // Update rotasi
+            angle += 0.02;
+        }
+    </script>
+</body>
+
+</html>
